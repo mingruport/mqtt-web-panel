@@ -1,7 +1,7 @@
 {
   "name": "mqtt-web-panel",
   "version": "0.1.0",
-  "description": "",
+  "description": "A simple web interface for MQTT",
   "repository": {
     "type": "git",
     "url": "https://github.com/mingruport/mqtt-web-panel"

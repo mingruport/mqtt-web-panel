@@ -22,7 +22,7 @@ const MOMENT_FORMATS = {
   month: 'MMM, Do',
 };
 
-/** GET /timeseries - Get statistics data */
+/** GET api/timeseries - Get statistics data */
 router.get('/', (req, res, next) => {
   const { friendlyId, period } = req.query;
 

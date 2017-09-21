@@ -1,0 +1,7 @@
+{
+  "name": "MQTT Web Panel",
+  "description": "A simple web interface for MQTT",
+  "repository": "https://github.com/mingruport/mqtt-web-panel",
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "keywords": ["node", "express", "mqtt"]
+}
