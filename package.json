@@ -1,0 +1,41 @@
+{
+  "name": "mqtt-web-panel",
+  "version": "0.1.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mingruport/mqtt-web-panel"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha **/*.test.js",
+    "test-watch": "nodemon --exec \"npm test\""
+  },
+  "author": {
+    "name": "Alexander Gorkalov",
+    "url": "https://github.com/mingruport/"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "caiman": "^0.2.0",
+    "compression": "^1.7.0",
+    "express": "^4.15.3",
+    "helmet": "^3.8.1",
+    "http-status": "^1.0.1",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.11.3",
+    "mqtt": "^2.9.1",
+    "serve-favicon": "^2.4.3",
+    "socket.io": "^2.0.3",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "expect": "^21.1.0",
+    "mocha": "^3.5.3",
+    "supertest": "^3.0.0"
+  }
+}
