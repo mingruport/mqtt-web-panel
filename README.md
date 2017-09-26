@@ -20,7 +20,7 @@ npm start
 ```
 Your app should now be running on [localhost:3000](localhost:3000).
 
-### Install Raspberry Pi
+### Install on Raspberry Pi
 
 Install Node.js:
 ```
