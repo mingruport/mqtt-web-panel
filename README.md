@@ -1,12 +1,12 @@
 # mqtt-web-panel
-A realtime web interface for MQTT.
+A real-time web interface for MQTT.
 
 ![Screencapture](screen.png)
 
 [![Build Status](https://travis-ci.org/mingruport/mqtt-web-panel.svg?branch=master)](https://travis-ci.org/mingruport/mqtt-web-panel)
 
 ## Features
-* Realtime update data
+* Real-time update data
 * Displays statistics for the selected period
 * Responsive interface
 
