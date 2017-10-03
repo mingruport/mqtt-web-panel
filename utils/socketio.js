@@ -15,7 +15,7 @@ const listen = (app) => {
   io = socketio.listen(app);
 
   io.on('connection', () => {
-    logger.log('socket.io', 'Client connected.'); // Вывести в Winston
+    logger.log('socket.io', 'Client connected.');
   });
 
   return io;

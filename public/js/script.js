@@ -101,16 +101,16 @@ function editTopic(friendlyId) {
 
   $('#topicModal').modal('hide');
   $('#addTopicModal').modal('show');
-  $('#addTopicModal').find('.modal-title').text('Edit topic');
+  $('#addTopicModal').find('.modal-title').text('Edit topic');  
 
   $.ajax({
     url: 'api/topics/' + friendlyId,
     type: 'GET',
     success: function(response) {
-      form.find('input[name="friendlyId"]').val(response.topic.friendlyId),
-      form.find('input[name="friendly"]').val(response.topic.friendly),
-      form.find('input[name="topic"]').val(response.topic.topic),
-      form.find('input[name="unit"]').val(response.topic.unit)
+      form.find('input[name="friendlyId"]').val(response.friendlyId),
+      form.find('input[name="friendly"]').val(response.friendly),
+      form.find('input[name="topic"]').val(response.topic),
+      form.find('input[name="unit"]').val(response.unit)
     }
   });
 }

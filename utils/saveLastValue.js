@@ -1,7 +1,7 @@
 const logger = require('winston');
 const { Topic } = require('../models/topic');
 
-const roundNuber = (value) => { // переименовать
+const roundNuber = (value) => {
   if (isFinite(value)) {
     return Number(value);
   }
