@@ -1,6 +1,6 @@
 const express = require('express');
 const moment = require('moment');
-const { Topic } = require('../models/topic');
+const { Topic } = require('../models/topic.model');
 const config = require('../config');
 const APIError = require('../utils/APIError');
 const httpStatus = require('http-status');

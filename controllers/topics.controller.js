@@ -3,7 +3,7 @@ const pick = require('lodash/pick');
 const socketio = require('../utils/socketio');
 const APIError = require('../utils/APIError');
 const {mongoose} = require('../utils/mongoose');
-const {Topic} = require('../models/topic');
+const {Topic} = require('../models/topic.model');
 const mqtt = require('../mqtt-client');
 
 const getTopics = (req, res, next) => {

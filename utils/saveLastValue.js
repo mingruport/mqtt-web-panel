@@ -1,5 +1,5 @@
 const logger = require('pino')();
-const { Topic } = require('../models/topic');
+const { Topic } = require('../models/topic.model');
 
 const roundNuber = (value) => {
   if (isFinite(value)) {

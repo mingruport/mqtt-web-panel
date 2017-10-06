@@ -1,7 +1,7 @@
 const mqtt = require('mqtt');
 const logger = require('pino')();
 const config = require('../config');
-const { Topic } = require('../models/topic');
+const { Topic } = require('../models/topic.model');
 const saveLastValue = require('../utils/saveLastValue');
 const timeseries = require('../utils/timeseries');
 const socketio = require('../utils/socketio');
