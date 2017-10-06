@@ -1,5 +1,5 @@
 const mqtt = require('mqtt');
-const logger = require('winston');
+const logger = require('pino')();
 const config = require('../config');
 const { Topic } = require('../models/topic');
 const saveLastValue = require('../utils/saveLastValue');
@@ -33,7 +33,7 @@ const subscribe = (topic) => {
 const unsubscribe = (topic) => {
   mqttClient.unsubscribe(topic, (err) => {
     if (err) logger.error(err);
-    logger.info('MQTT Unsubscribe - ', topic);
+    logger.info('MQTT Unsubscribe -', topic);
   });
 };
 
@@ -47,7 +47,7 @@ mqttClient.on('error', (error) => {
 });
 
 mqttClient.on('message', (topic, message) => {
-  logger.info('MQTT new message -', `${topic}: ${message}`);
+  logger.info('MQTT message -', `${topic}: ${message}`);
 
   saveLastValue(topic, message);
   timeseries.saveData(topic, message.toString());

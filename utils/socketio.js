@@ -1,5 +1,5 @@
 const socketio = require('socket.io');
-const logger = require('winston');
+const logger = require('pino')();
 const { Topic } = require('../models/topic');
 
 let io;
@@ -15,7 +15,7 @@ const listen = (app) => {
   io = socketio.listen(app);
 
   io.on('connection', () => {
-    logger.log('socket.io', 'Client connected.');
+    logger.info('socket.io', 'Client connected.');
   });
 
   return io;
