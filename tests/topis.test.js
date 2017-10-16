@@ -70,7 +70,7 @@ describe('# PUT /api/topics/:friendlyId', () => {
       .send(newTopic)
       .expect(httpStatus.OK)
       .then((res) => {
-        expect(res.body.friendly).toEqual('Test');
+        expect(res.body.friendly).toEqual('Test1');
         expect(res.body.topic).toEqual(newTopic.topic);
         done();
       })
