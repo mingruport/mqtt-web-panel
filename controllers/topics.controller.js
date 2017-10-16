@@ -2,8 +2,8 @@ const httpStatus = require('http-status');
 const pick = require('lodash/pick');
 const socketio = require('../utils/socketio');
 const APIError = require('../utils/APIError');
-const {mongoose} = require('../utils/mongoose');
-const {Topic} = require('../models/topic.model');
+const { mongoose } = require('../utils/mongoose');
+const { Topic } = require('../models/topic.model');
 const mqtt = require('../mqtt-client');
 
 const getTopics = (req, res, next) => {
@@ -17,7 +17,7 @@ function getTopic(req, res, next) {
 
   Topic.findByFriendlyId(friendlyId).then((topic) => {
     if (!topic) {
-      return next(new APIError('Not Found', httpStatus.NOT_FOUND, true));
+      return next(new APIError('Topic not found', httpStatus.NOT_FOUND, true));
     }
     res.json(topic);
   }).catch(err => next(err));
@@ -41,29 +41,37 @@ const addTopic = (req, res, next) => {
 
 const updateTopic = (req, res, next) => {
   const { friendlyId } = req.params;
-  const topic = pick(req.body, Topic.publicFields);
+  const body = pick(req.body, Topic.publicFields);
 
-  Topic.findByFriendlyIdAndUpdate(friendlyId, topic).then((updatedTopic) => {
-    if (!updatedTopic) {
-      return next(new APIError('Not Found', httpStatus.NOT_FOUND, true));
+  Topic.findByFriendlyId(friendlyId).then((topic) => {
+    if (!topic) {
+      return next(new APIError('Topic not found', httpStatus.NOT_FOUND, true));
     }
-    res.json(updatedTopic);
-    mqtt.unsubscribe(updatedTopic.topic);
-    mqtt.resubscribe();
-    socketio.updateTopics();
+
+    topic.set(body).save().then((updatedTopic) => {
+      res.json(updatedTopic);
+      mqtt.unsubscribe(updatedTopic.topic);
+      mqtt.resubscribe();
+      socketio.updateTopics();
+    }).catch(err => next(err));
+
   }).catch(err => next(err));
 }
 
 const deleteTopic = (req, res, next) => {
   const { friendlyId } = req.params;
 
-  Topic.findByFriendlyIdAndRemove(friendlyId).then((deletedTopic) => {
-    if (!deletedTopic) {
-      return next(new APIError('Not Found', httpStatus.NOT_FOUND, true));
+  Topic.findByFriendlyId(friendlyId).then((topic) => {
+    if (!topic) {
+      return next(new APIError('Topic not found', httpStatus.NOT_FOUND, true));
     }
-    res.json(deletedTopic);
-    mqtt.unsubscribe(deletedTopic.topic);
-    socketio.updateTopics();
+
+    topic.remove().then((deletedTopic) => {
+      res.json(deletedTopic);
+      mqtt.unsubscribe(deletedTopic.topic);
+      socketio.updateTopics();
+    }).catch(err => next(err));
+
   }).catch(err => next(err));
 }
 
@@ -72,5 +80,5 @@ module.exports = {
   getTopic,
   addTopic,
   updateTopic,
-  deleteTopic
+  deleteTopic,
 };

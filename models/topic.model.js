@@ -51,21 +51,6 @@ TopicSchema.statics.findByFriendlyId = function (friendlyId) {
   return Topic.findOne(query);
 };
 
-TopicSchema.statics.findByFriendlyIdAndRemove = function (friendlyId) {
-  const Topic = this;
-  const query = { friendly: { $regex: new RegExp(`^${friendlyId.toLowerCase()}`, 'i') } };
-
-  return Topic.findOneAndRemove(query);
-};
-
-TopicSchema.statics.findByFriendlyIdAndUpdate = function (friendlyId, topic) {
-  const Topic = this;
-  const query = { friendly: { $regex: new RegExp(`^${friendlyId.toLowerCase()}`, 'i') } };
-  const options = { new: false };
-
-  return Topic.findOneAndUpdate(query, topic, options);
-};
-
 const Topic = mongoose.model('Topic', TopicSchema);
 
 module.exports = {
