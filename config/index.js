@@ -1,9 +1,5 @@
 const dotenv = require('dotenv').config();
 
-if (dotenv.error) {
-  throw dotenv.error;
-}
-
 const config = {};
 
 config.port = process.env.PORT || 3000;
