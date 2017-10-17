@@ -1,14 +1,24 @@
-# mqtt-web-panel
+# MQTT Web Panel
 A real-time web interface for MQTT.
-
-![Screencapture](screen.png)
 
 [![Build Status](https://travis-ci.org/mingruport/mqtt-web-panel.svg?branch=master)](https://travis-ci.org/mingruport/mqtt-web-panel)
 
+![Screencapture](screen.png)
+
+---
+
+## Live Demo
+A demo version is available at this [link](https://mqtt-panel-demo.herokuapp.com/).
+ 
 ## Features
 * Real-time update data
 * Displays statistics for the selected period
 * Responsive interface
+* RESTful API
+
+## Requirements
+* Latest Node.js 7 and npm
+* MongoDB
 
 ## Getting Started
 ### Install locally
@@ -45,6 +55,13 @@ git push heroku master
 heroku open
 ```
 
+### Testing
+
+Execute this command to run tests:
+```
+npm test
+```
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mingruport/mqtt-web-panel)
 ## API
 * ```GET /api/topics/``` Find all topics.
@@ -53,7 +70,7 @@ heroku open
 * ```PUT /api/topics/{friendlyId}``` Update entire topic document.
 * ```DELETE /api/topics/{friendlyId}``` Delete a topic by Friendly ID
 
-* ```GET /api/timeseries/``` Return statistics data.
+* ```GET api/timeseries?friendlyId={friendlyId}&period={period}``` Return statistics data.
 
 ## License
 This project is licensed under the MIT License.
