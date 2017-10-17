@@ -1,10 +1,11 @@
 const socketio = require('socket.io');
 const logger = require('pino')();
 const { Topic } = require('../models/topic.model');
+const inputStream = require('../data-streams/input');
 
 let io;
 
-const roundNuber = (value) => { // переименовать
+const roundNuber = (value) => {
   if (isFinite(value)) {
     return Number(value);
   }
@@ -21,7 +22,7 @@ const listen = (app) => {
   return io;
 };
 
-const sendMessage = (topic, message) => {
+inputStream.subscribe('message', (topic, value) => {
   Topic.findByTopic(topic).then((topicData) => {
     const friendlyId = topicData.friendly.toLowerCase();
     const unit = topicData.unit;
@@ -29,14 +30,14 @@ const sendMessage = (topic, message) => {
     io.emit('update', {
       friendlyId,
       message: {
-        value: roundNuber(message).toString(),
+        value: roundNuber(value).toString(),
         unit,
       },
     });
   }).catch((err) => {
     logger.error(err);
   });
-};
+});
 
 const updateTopics = () => {
   io.emit('update_topics');
@@ -44,6 +45,5 @@ const updateTopics = () => {
 
 module.exports = {
   listen,
-  sendMessage,
   updateTopics,
 };

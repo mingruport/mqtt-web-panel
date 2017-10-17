@@ -2,6 +2,7 @@ const { Caiman } = require('caiman');
 const MongoClient = require('mongodb').MongoClient;
 const moment = require('moment');
 const config = require('../config');
+const inputStream = require('../data-streams/input');
 
 moment().utcOffset(config.timeZoneOffset);
 
@@ -25,14 +26,15 @@ function initBD() {
   });
 }
 
-function saveData(topic, value) {
+inputStream.subscribe('message', (topic, value) => {
   if (!topicsStatistic[topic]) {
     topicsStatistic[topic] = new Caiman(topic, options);
   }
 
   const currentDate = new Date();
   topicsStatistic[topic].save(currentDate, PERIODS, value, STRATEGY);
-}
+});
+
 
 function getTopicsStatistic() {
   return topicsStatistic;
@@ -40,6 +42,5 @@ function getTopicsStatistic() {
 
 module.exports = {
   initBD,
-  saveData,
   getTopicsStatistic,
 };

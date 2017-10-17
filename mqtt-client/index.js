@@ -2,9 +2,9 @@ const mqtt = require('mqtt');
 const logger = require('pino')();
 const config = require('../config');
 const { Topic } = require('../models/topic.model');
-const saveLastValue = require('../utils/saveLastValue');
 const timeseries = require('../utils/timeseries');
-const socketio = require('../utils/socketio');
+
+const inputStream = require('../data-streams/input');
 
 const mqttClient = mqtt.connect(config.mqttOptions);
 
@@ -38,8 +38,8 @@ const unsubscribe = (topic) => {
 };
 
 mqttClient.on('connect', () => {
-  resubscribe();
   logger.info('MQTT Client ID -', mqttClient.options.clientId);
+  resubscribe();
 });
 
 mqttClient.on('error', (error) => {
@@ -49,9 +49,7 @@ mqttClient.on('error', (error) => {
 mqttClient.on('message', (topic, message) => {
   logger.info('MQTT message -', `${topic}: ${message}`);
 
-  saveLastValue(topic, message);
-  timeseries.saveData(topic, message.toString());
-  socketio.sendMessage(topic, message.toString());
+  inputStream.next('message', topic, message.toString());
 });
 
 module.exports = {

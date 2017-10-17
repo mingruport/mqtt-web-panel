@@ -1,20 +1,21 @@
-const config = {};
+const dotenv = require('dotenv').config();
 
-const mqttURL = process.env.MQTT_URL;
-const mqttPort = process.env.MQTT_PORT;
-const mqttUsername = process.env.MQTT_USERNAME;
-const mqttPassword = process.env.MQTT_PASSWORD;
+if (dotenv.error) {
+  throw dotenv.error;
+}
+
+const config = {};
 
 config.port = process.env.PORT || 3000;
 config.mongodbUIR = process.env.MONGOHQ_URL;
 
-config.timeZoneOffset = process.env.TIME_ZONE || '00:00';
-
 config.mqttOptions = {
-  host: mqttURL,
-  port: mqttPort,
-  username: mqttUsername,
-  password: mqttPassword,
+  host: process.env.MQTT_URL,
+  port: process.env.MQTT_PORT,
+  username: process.env.MQTT_USERNAME,
+  password: process.env.MQTT_PASSWORD,
 };
+
+config.timeZoneOffset = process.env.TIME_ZONE || '00:00';
 
 module.exports = config;

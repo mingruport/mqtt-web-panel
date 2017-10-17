@@ -1,6 +1,6 @@
 {
   "name": "mqtt-web-panel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A real-time web interface for MQTT.",
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
     "body-parser": "^1.17.2",
     "caiman": "^0.2.0",
     "compression": "^1.7.0",
+    "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "helmet": "^3.8.1",
     "http-status": "^1.0.1",

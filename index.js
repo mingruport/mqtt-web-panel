@@ -9,8 +9,8 @@ const logger = require('pino')();
 const config = require('./config');
 const APIError = require('./utils/APIError');
 const timeseries = require('./utils/timeseries');
-const topicsRoutes = require('./routes/topics.route');
-const timeseriesRoutes = require('./routes/timeseries');
+const topicsRoutes = require('./routes/topics.routes');
+const timeseriesRoutes = require('./routes/timeseries.routes');
 
 const app = express();
 const server = require('http').createServer(app);

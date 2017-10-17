@@ -17,7 +17,7 @@ A demo version is available at this [link](https://mqtt-panel-demo.herokuapp.com
 * RESTful API
 
 ## Requirements
-* Latest Node.js 7 and npm
+* Latest Node.js and npm
 * MongoDB
 
 ## Getting Started
@@ -28,7 +28,7 @@ cd mqtt-web-panel
 npm install
 npm start
 ```
-Your app should now be running on [localhost:3000](localhost:3000).
+Your app should now be running on [localhost:3000](http://localhost:3000).
 
 ### Install on Raspberry Pi
 
@@ -54,6 +54,7 @@ heroku create
 git push heroku master
 heroku open
 ```
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mingruport/mqtt-web-panel)
 
 ### Testing
 
@@ -62,7 +63,6 @@ Execute this command to run tests:
 npm test
 ```
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mingruport/mqtt-web-panel)
 ## API
 * ```GET /api/topics/``` Find all topics.
 * ```GET /api/topics/{friendlyId}``` 	Find a single topic by Friendly ID.

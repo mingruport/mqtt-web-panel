@@ -1,5 +1,6 @@
 const logger = require('pino')();
 const { Topic } = require('../models/topic.model');
+const inputStream = require('../data-streams/input');
 
 const roundNuber = (value) => {
   if (isFinite(value)) {
@@ -8,14 +9,16 @@ const roundNuber = (value) => {
   return value;
 };
 
-module.exports = (topic, value) => {
+inputStream.subscribe('message', (topic, value) => {
+  console.log('Data -', `${topic}: ${value}`);
+
   Topic.findOneAndUpdate({ topic }, {
     $set: {
-      lastValue: roundNuber(value.toString()),
+      lastValue: roundNuber(value),
     },
   }, {
-    new: true,
-  }).catch((err) => {
-    logger.error(err);
-  });
-};
+      new: true,
+    }).catch((err) => {
+      logger.error(err);
+    });
+});
