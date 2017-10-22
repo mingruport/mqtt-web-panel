@@ -34,9 +34,8 @@ const addTopic = (req, res, next) => {
     res.json(savedTopic);
     mqtt.subscribe(savedTopic.topic);
     socketio.updateTopics();
-  }).catch((err) => {
-    next(err);
-  });
+  }).catch(err => next(err));
+
 }
 
 const updateTopic = (req, res, next) => {
@@ -48,13 +47,12 @@ const updateTopic = (req, res, next) => {
       return next(new APIError('Topic not found', httpStatus.NOT_FOUND, true));
     }
 
-    topic.set(body).save().then((updatedTopic) => {
-      res.json(updatedTopic);
-      mqtt.unsubscribe(updatedTopic.topic);
-      mqtt.resubscribe();
-      socketio.updateTopics();
-    }).catch(err => next(err));
-
+    return topic.set(body).save();
+  }).then((updatedTopic) => {
+    res.json(updatedTopic);
+    mqtt.unsubscribe(updatedTopic.topic);
+    mqtt.resubscribe();
+    socketio.updateTopics();
   }).catch(err => next(err));
 }
 
@@ -66,12 +64,11 @@ const deleteTopic = (req, res, next) => {
       return next(new APIError('Topic not found', httpStatus.NOT_FOUND, true));
     }
 
-    topic.remove().then((deletedTopic) => {
-      res.json(deletedTopic);
-      mqtt.unsubscribe(deletedTopic.topic);
-      socketio.updateTopics();
-    }).catch(err => next(err));
-
+    return topic.remove();
+  }).then((deletedTopic) => {
+    res.json(deletedTopic);
+    mqtt.unsubscribe(deletedTopic.topic);
+    socketio.updateTopics();
   }).catch(err => next(err));
 }
 
