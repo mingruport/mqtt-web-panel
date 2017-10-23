@@ -9,18 +9,18 @@ const inputStream = require('../data-streams/input');
 const mqttClient = mqtt.connect(config.mqttOptions);
 
 const resubscribe = () => {
-  Topic.find().then((data) => {
-    if (data) {
-      const topics = data.map(item => item.topic);
+  Topic.find()
+    .then((data) => {
+      if (data) {
+        const topics = data.map(item => item.topic);
 
-      mqttClient.subscribe(topics, (err, granted) => {
-        if (err) logger.error(err);
-        logger.info('MQTT Subscribe -', granted);
-      });
-    }
-  }).catch((err) => {
-    logger.error(err);
-  });
+        mqttClient.subscribe(topics, (err, granted) => {
+          if (err) logger.error(err);
+          logger.info('MQTT Subscribe -', granted);
+        });
+      }
+    })
+    .catch(err => logger.error(err));
 };
 
 const subscribe = (topic) => {
@@ -42,14 +42,12 @@ mqttClient.on('connect', () => {
   resubscribe();
 });
 
-mqttClient.on('error', (error) => {
-  logger.error(error);
-});
+mqttClient.on('error', error => logger.error(error));
 
 mqttClient.on('message', (topic, message) => {
   logger.info('MQTT message -', `${topic}: ${message}`);
 
-  inputStream.next('message', topic, message.toString());
+  inputStream.next('message', topic.toString(), message.toString());
 });
 
 module.exports = {

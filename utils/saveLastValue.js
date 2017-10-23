@@ -10,15 +10,13 @@ const roundNuber = (value) => {
 };
 
 inputStream.subscribe('message', (topic, value) => {
-  console.log('Data -', `${topic}: ${value}`);
-
   Topic.findOneAndUpdate({ topic }, {
     $set: {
       lastValue: roundNuber(value),
     },
   }, {
-      new: true,
-    }).catch((err) => {
-      logger.error(err);
-    });
+    new: true,
+  }).catch((err) => {
+    logger.error(err);
+  });
 });

@@ -25,7 +25,7 @@ const listen = (app) => {
 inputStream.subscribe('message', (topic, value) => {
   Topic.findByTopic(topic).then((topicData) => {
     const friendlyId = topicData.friendly.toLowerCase();
-    const unit = topicData.unit;
+    const { unit } = topicData;
 
     io.emit('update', {
       friendlyId,

@@ -11,6 +11,7 @@ const APIError = require('./utils/APIError');
 const timeseries = require('./utils/timeseries');
 const topicsRoutes = require('./routes/topics.routes');
 const timeseriesRoutes = require('./routes/timeseries.routes');
+const saveLastValue = require('./utils/saveLastValue');
 
 const app = express();
 const server = require('http').createServer(app);

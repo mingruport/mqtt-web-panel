@@ -1,5 +1,5 @@
 const { Caiman } = require('caiman');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
 const moment = require('moment');
 const config = require('../config');
 const inputStream = require('../data-streams/input');
@@ -18,29 +18,26 @@ const options = {
   },
 };
 
-const topicsStatistic = {};
+const topicStatistic = {};
 
-function initBD() {
+const initBD = () => {
   MongoClient.connect(config.mongodbUIR, (err, db) => {
     options.driver.options.db = db;
   });
-}
+};
+
+const getTopicStatistic = () => topicStatistic;
 
 inputStream.subscribe('message', (topic, value) => {
-  if (!topicsStatistic[topic]) {
-    topicsStatistic[topic] = new Caiman(topic, options);
+  if (!topicStatistic[topic]) {
+    topicStatistic[topic] = new Caiman(topic, options);
   }
 
   const currentDate = new Date();
-  topicsStatistic[topic].save(currentDate, PERIODS, value, STRATEGY);
+  topicStatistic[topic].save(currentDate, PERIODS, value, STRATEGY);
 });
-
-
-function getTopicsStatistic() {
-  return topicsStatistic;
-}
 
 module.exports = {
   initBD,
-  getTopicsStatistic,
+  getTopicStatistic,
 };
