@@ -7,11 +7,11 @@ const favicon = require('serve-favicon');
 const compression = require('compression');
 const logger = require('pino')();
 const config = require('./config');
+const saveLastValue = require('./utils/saveLastValue');
 const APIError = require('./utils/APIError');
 const timeseries = require('./utils/timeseries');
 const topicsRoutes = require('./routes/topics.routes');
 const timeseriesRoutes = require('./routes/timeseries.routes');
-const saveLastValue = require('./utils/saveLastValue');
 
 const app = express();
 const server = require('http').createServer(app);
