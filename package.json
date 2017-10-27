@@ -18,25 +18,25 @@
   },
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.17.2",
+    "body-parser": "^1.18.2",
     "caiman": "^0.2.0",
-    "compression": "^1.7.0",
+    "compression": "^1.7.1",
     "dotenv": "^4.0.0",
-    "express": "^4.15.3",
-    "helmet": "^3.8.1",
+    "express": "^4.16.2",
+    "helmet": "^3.9.0",
     "http-status": "^1.0.1",
     "lodash": "^4.17.4",
-    "moment": "^2.18.1",
-    "mongodb": "^2.2.31",
-    "mongoose": "^4.11.3",
-    "mqtt": "^2.9.1",
-    "pino": "^4.7.2",
-    "serve-favicon": "^2.4.3",
-    "socket.io": "^2.0.3"
+    "moment": "^2.19.1",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.12.4",
+    "mqtt": "^2.13.1",
+    "pino": "^4.8.1",
+    "serve-favicon": "^2.4.5",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
-    "expect": "^21.1.0",
-    "mocha": "^3.5.3",
+    "expect": "^21.2.1",
+    "mocha": "^4.0.1",
     "supertest": "^3.0.0"
   }
 }
