@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha tests/*.test.js",
+    "test": "mocha tests/*.test.js --exit",
     "test-watch": "nodemon --exec 'npm test'"
   },
   "author": {
