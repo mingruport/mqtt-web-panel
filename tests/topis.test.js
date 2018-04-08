@@ -41,7 +41,7 @@ describe('# GET /api/topics/:friendlyId', () => {
       .get('/api/topics/test1')
       .expect(404)
       .then((res) => {
-        expect(res.body.message).toEqual('Topic not found');
+        expect(res.body.message).toEqual('Not Found');
         done();
       })
       .catch(done);
