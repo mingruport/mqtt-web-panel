@@ -1,7 +1,6 @@
-const httpStatus = require('http-status');
 const pick = require('lodash/pick');
 const socketio = require('../utils/socketio');
-const APIError = require('../utils/APIError');
+const errors = require('../utils/errors');
 const { mongoose } = require('../utils/mongoose');
 const { Topic } = require('../models/topic.model');
 const mqtt = require('../mqtt-client');
@@ -19,14 +18,14 @@ const getTopic = (req, res, next) => {
 
   Topic.findByFriendlyId(friendlyId)
     .then((topic) => {
-      if (!topic) return next(new APIError('Topic not found', httpStatus.NOT_FOUND, true));
+      if (!topic) return Promise.reject(new errors.NotFoundError());
       res.json(topic);
     })
     .catch(err => next(err));
 };
 
 const addTopic = (req, res, next) => {
-  if (!req.body) return next(new APIError('Bad Request', httpStatus.BAD_REQUEST, true));
+  if (!req.body) return Promise.reject(new errors.BadRequestError());
 
   const topic = new Topic(pick(req.body, Topic.publicFields));
 
@@ -45,7 +44,7 @@ const updateTopic = (req, res, next) => {
 
   Topic.findByFriendlyId(friendlyId)
     .then((topic) => {
-      if (!topic) return next(new APIError('Topic not found', httpStatus.NOT_FOUND, true));
+      if (!topic) return Promise.reject(new errors.NotFoundError());
 
       return topic.set(body).save();
     })
@@ -63,7 +62,7 @@ const deleteTopic = (req, res, next) => {
 
   Topic.findByFriendlyId(friendlyId)
     .then((topic) => {
-      if (!topic) return next(new APIError('Topic not found', httpStatus.NOT_FOUND, true));
+      if (!topic) return Promise.reject(new errors.NotFoundError());
 
       return topic.remove();
     })

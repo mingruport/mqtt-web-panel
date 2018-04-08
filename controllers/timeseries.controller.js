@@ -1,8 +1,7 @@
 const moment = require('moment');
 const { Topic } = require('../models/topic.model');
 const config = require('../config');
-const APIError = require('../utils/APIError');
-const httpStatus = require('http-status');
+const errors = require('../utils/errors');
 const timeseries = require('../utils/timeseries');
 
 moment().utcOffset(config.timeZoneOffset);
@@ -23,21 +22,21 @@ const getTimeseriesData = (req, res, next) => {
   const { friendlyId, period } = req.query;
 
   if (!period || !CHILD_PERIODS.hasOwnProperty(period)) {
-    return next(new APIError('Period is not provided to wrong', httpStatus.BAD_REQUEST, true));
+    return next(new errors.BadRequestError('Period is not provided to wrong'));
   }
 
   if (!friendlyId) {
-    return next(new APIError('Friendly ID is not provided', httpStatus.BAD_REQUEST, true));
+    return next(new errors.BadRequestError('Friendly ID is not provided'));
   }
 
   Topic.findByFriendlyId(friendlyId)
     .then((result) => {
-      if (!result) return next(new APIError('Not found', httpStatus.NOT_FOUND, true));
+      if (!result) return Promise.reject(new errors.NotFoundError());
 
       const topics = timeseries.getTopicStatistic();
       const date = moment().subtract(1, period).toDate();
 
-      if (!topics[result.topic]) return next(new APIError(`${result.friendly} not contain statistics data`, httpStatus.BAD_REQUEST, true));
+      if (!topics[result.topic]) return Promise.reject(new errors.BadRequestError(`${result.friendly} not contain statistics data`));
 
       return topics[result.topic].getCollection(date, CHILD_PERIODS[period]).toArray();
     })
