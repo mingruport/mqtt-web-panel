@@ -17,8 +17,8 @@ A demo version is available at this [link](https://mqtt-panel-demo.herokuapp.com
 * RESTful API
 
 ## Requirements
-* Latest Node.js and npm
-* MongoDB
+* ```Node.js >= 8.5```
+* ```MongoDB >= 3.4```
 
 ## Getting Started
 ### Install locally
@@ -62,6 +62,18 @@ Execute this command to run tests:
 ```
 npm test
 ```
+
+## Environment variables
+
+| Variable | Default | Description |
+| ------ | ------ | ------ |
+| ```PORT``` | ```3000``` | Port to run the API on |
+| ```MONGOHQ_URL``` | ```-``` | Database URL |
+| ```MQTT_URL``` | ```-``` | MQTT server URL |
+| ```MQTT_PORT``` | ```-``` | MQTT server Port |
+| ```MQTT_USERNAME``` | ```-``` | MQTT server username |
+| ```MQTT_PASSWORD``` | ```-``` | MQTT server password |
+| ```TIME_ZONE``` | ```00:00``` | Local time zone |
 
 ## API
 * ```GET /api/topics/``` Find all topics.
