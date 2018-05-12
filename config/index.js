@@ -12,6 +12,6 @@ config.mqttOptions = {
   password: process.env.MQTT_PASSWORD,
 };
 
-config.timeZoneOffset = process.env.TIME_ZONE || '00:00';
+config.timeZone = process.env.TIME_ZONE || '00:00';
 
 module.exports = config;

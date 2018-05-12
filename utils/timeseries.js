@@ -1,10 +1,7 @@
 const { Caiman } = require('caiman');
 const { MongoClient } = require('mongodb');
-const moment = require('moment');
 const config = require('../config');
 const events = require('../events');
-
-moment().utcOffset(config.timeZoneOffset);
 
 const PERIODS = ['month', 'day', 'hour', 'minute', 'second'];
 const STRATEGY = 'averages';

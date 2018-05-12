@@ -4,7 +4,7 @@ const config = require('../config');
 const errors = require('../utils/errors');
 const timeseries = require('../utils/timeseries');
 
-moment().utcOffset(config.timeZoneOffset);
+const timeZone = config.timeZone;
 
 const CHILD_PERIODS = {
   hour: 'minute',
@@ -42,7 +42,7 @@ const getTimeseriesData = (req, res, next) => {
     })
     .then((statisticsData) => {
       res.json({
-        date: statisticsData.map(item => moment(item.startDate).format(MOMENT_FORMATS[period])),
+        date: statisticsData.map(item => moment(item.startDate).utcOffset(timeZone).format(MOMENT_FORMATS[period])),
         value: statisticsData.map(item => item.data.average.toFixed(2)),
       });
     })
