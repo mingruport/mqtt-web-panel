@@ -1,6 +1,6 @@
 const logger = require('pino')();
 const { Topic } = require('../models/topic.model');
-const inputStream = require('../data-streams/input');
+const events = require('../events');
 
 const roundNuber = (value) => {
   if (isFinite(value)) {
@@ -9,7 +9,7 @@ const roundNuber = (value) => {
   return value;
 };
 
-inputStream.subscribe('message', (topic, value) => {
+events.subscribe('MESSAGE', (topic, value) => {
   Topic.findOneAndUpdate({ topic }, {
     $set: {
       lastValue: roundNuber(value),

@@ -1,8 +1,8 @@
 const { EventEmitter } = require('events');
 
 class Stream extends EventEmitter {
-  next(event, ...data) {
-    this.emit(event, ...data);
+  push(event, ...payload) {
+    this.emit(event, ...payload);
   }
 
   subscribe(event, callback) {
@@ -11,4 +11,4 @@ class Stream extends EventEmitter {
   }
 }
 
-module.exports = Stream;
+module.exports = new Stream;

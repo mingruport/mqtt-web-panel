@@ -25,8 +25,6 @@ const TopicSchema = mongoose.Schema({
   },
 });
 
-TopicSchema.statics.publicFields = ['friendly', 'topic', 'unit'];
-
 TopicSchema.methods.toJSON = function () {
   return {
     friendlyId: this.friendly.toLocaleLowerCase(),

@@ -1,7 +1,7 @@
 const socketio = require('socket.io');
 const logger = require('pino')();
 const { Topic } = require('../models/topic.model');
-const inputStream = require('../data-streams/input');
+const events = require('../events');
 
 let io;
 
@@ -22,7 +22,7 @@ const listen = (app) => {
   return io;
 };
 
-inputStream.subscribe('message', (topic, value) => {
+events.subscribe('MESSAGE', (topic, value) => {
   Topic.findByTopic(topic).then((topicData) => {
     const friendlyId = topicData.friendly.toLowerCase();
     const { unit } = topicData;
@@ -39,11 +39,18 @@ inputStream.subscribe('message', (topic, value) => {
   });
 });
 
-const updateTopics = () => {
+events.subscribe('NEW_TOPIC', () => {
   io.emit('update_topics');
-};
+});
+
+events.subscribe('UPDATE_TOPIC', () => {
+  io.emit('update_topics');
+});
+
+events.subscribe('DELETE_TOPIC', () => {
+  io.emit('update_topics');
+});
 
 module.exports = {
-  listen,
-  updateTopics,
+  listen
 };

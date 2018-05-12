@@ -6,6 +6,7 @@ const favicon = require('serve-favicon');
 const compression = require('compression');
 const logger = require('pino')();
 const config = require('./config');
+const mqtt = require('./mqtt-client');
 const saveLastValue = require('./utils/saveLastValue');
 const errors = require('./utils/errors');
 const timeseries = require('./utils/timeseries');
@@ -25,6 +26,7 @@ app.use('/api/topics', topicsRoutes);
 app.use('/api/timeseries', timeseriesRoutes);
 
 timeseries.initBD();
+mqtt.resubscribe();
 
 app.use((req, res, next) => {
   const err = new errors.NotFoundError();

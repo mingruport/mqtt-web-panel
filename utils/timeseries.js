@@ -2,7 +2,7 @@ const { Caiman } = require('caiman');
 const { MongoClient } = require('mongodb');
 const moment = require('moment');
 const config = require('../config');
-const inputStream = require('../data-streams/input');
+const events = require('../events');
 
 moment().utcOffset(config.timeZoneOffset);
 
@@ -28,7 +28,7 @@ const initBD = () => {
 
 const getTopicStatistic = () => topicStatistic;
 
-inputStream.subscribe('message', (topic, value) => {
+events.subscribe('MESSAGE', (topic, value) => {
   if (!topicStatistic[topic]) {
     topicStatistic[topic] = new Caiman(topic, options);
   }
