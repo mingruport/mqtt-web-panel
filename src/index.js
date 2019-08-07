@@ -5,6 +5,7 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const compression = require('compression');
 const logger = require('pino')();
+
 const config = require('./config');
 const mqtt = require('./mqtt-client');
 const saveLastValue = require('./utils/saveLastValue');
