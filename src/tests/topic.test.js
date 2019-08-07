@@ -1,6 +1,6 @@
 const request = require('supertest');
 const expect = require('expect');
-const app = require('../index.js/index.js');
+const app = require('../index.js');
 
 const newTopic = {
   friendlyId: 'test',

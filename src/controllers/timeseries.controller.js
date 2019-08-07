@@ -1,10 +1,11 @@
+const express = require('express');
 const moment = require('moment');
-const { Topic } = require('../models/topic.model');
+const Topic = require('../models/topic.model');
 const config = require('../config');
 const errors = require('../utils/errors');
 const timeseries = require('../utils/timeseries');
 
-const timeZone = config.timeZone;
+const router = express.Router();
 
 const CHILD_PERIODS = {
   hour: 'minute',
@@ -18,7 +19,8 @@ const MOMENT_FORMATS = {
   month: 'MMM, Do',
 };
 
-const getTimeseriesData = (req, res, next) => {
+/** GET api/timeseries - Get statistics data */
+router.get('/', (req, res, next) => {
   const { friendlyId, period } = req.query;
 
   if (!period || !CHILD_PERIODS.hasOwnProperty(period)) {
@@ -29,8 +31,9 @@ const getTimeseriesData = (req, res, next) => {
     return next(new errors.BadRequestError('Friendly ID is not provided'));
   }
 
-  Topic.findByFriendlyId(friendlyId)
-    .then((result) => {
+  Topic
+    .findByFriendlyId(friendlyId)
+    .then(result => {
       if (!result) return Promise.reject(new errors.NotFoundError());
 
       const topics = timeseries.getTopicStatistic();
@@ -40,15 +43,13 @@ const getTimeseriesData = (req, res, next) => {
 
       return topics[result.topic].getCollection(date, CHILD_PERIODS[period]).toArray();
     })
-    .then((statisticsData) => {
+    .then(statisticsData => {
       res.json({
-        date: statisticsData.map(item => moment(item.startDate).utcOffset(timeZone).format(MOMENT_FORMATS[period])),
+        date: statisticsData.map(item => moment(item.startDate).utcOffset(config.timeZone).format(MOMENT_FORMATS[period])),
         value: statisticsData.map(item => item.data.average.toFixed(2)),
       });
     })
     .catch(err => next(err));
-};
+});
 
-module.exports = {
-  getTimeseriesData,
-};
+module.exports = router;

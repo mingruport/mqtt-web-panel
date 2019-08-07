@@ -4,14 +4,14 @@ const TopicSchema = mongoose.Schema({
   friendly: {
     type: String,
     required: [true, 'can\'t be blank'],
-    unigue: true,
+    unique: true,
     minlength: 1,
     trim: true,
   },
   topic: {
     type: String,
     required: [true, 'can\'t be blank'],
-    unigue: true,
+    unique: true,
     minlength: 1,
     trim: true,
   },
@@ -49,8 +49,4 @@ TopicSchema.statics.findByFriendlyId = function (friendlyId) {
   return Topic.findOne(query);
 };
 
-const Topic = mongoose.model('Topic', TopicSchema);
-
-module.exports = {
-  Topic,
-};
+module.exports = mongoose.model('Topic', TopicSchema);

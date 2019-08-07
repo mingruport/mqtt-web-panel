@@ -4,44 +4,51 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const favicon = require('serve-favicon');
 const compression = require('compression');
+const morgan = require('morgan');
 const logger = require('pino')();
 
 const config = require('./config');
+const mongoose = require('./utils/mongoose');
 const mqtt = require('./mqtt-client');
 const saveLastValue = require('./utils/saveLastValue');
-const errors = require('./utils/errors');
+const { NotFoundError } = require('./utils/errors');
 const timeseries = require('./utils/timeseries');
-const topicsRoutes = require('./routes/topics.routes');
-const timeseriesRoutes = require('./routes/timeseries.routes');
+const topicController = require('./controllers/topic.controller');
+const timeseriesController = require('./controllers/timeseries.controller');
 
 const app = express();
 const server = require('http').createServer(app);
 const io = require('./utils/socketio').listen(server);
 
+app.use(morgan('tiny'));
 app.use(compression());
 app.use(helmet());
-app.use(express.static('public'));
-app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(bodyParser.json());
-app.use('/api/topics', topicsRoutes);
-app.use('/api/timeseries', timeseriesRoutes);
+
+app.use(express.static('src/public'));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
+app.use('/api/topics', topicController);
+app.use('/api/timeseries', timeseriesController);
 
 timeseries.initBD();
 mqtt.resubscribe();
 
 app.use((req, res, next) => {
-  const err = new errors.NotFoundError();
-  return next(err);
+  next(new NotFoundError());
 });
 
 app.use((err, req, res, next) => {
-  res.status(err.status || 500).json({
-    message: err.message || 'Internal Server Error'
-  });
+  const status = err.status || 500;
+  const message = err.message || 'Internal Server Error';
+  const details = err.details || [];
+
+  res.status(status).json({ status, message, details });
 });
 
-server.listen(config.port, () => {
-  logger.info(`App listening on port ${config.port}.`);
-});
+mongoose
+  .then(() => server.listen(config.port, () =>
+    logger.info(`API server listening ${config.port} port.`)
+  ))
+  .catch(err => logger.error(err));
 
 module.exports = app;

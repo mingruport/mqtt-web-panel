@@ -40,7 +40,6 @@ function loadStatisticsData(friendlyId, period) {
       updateChart(response);
     },
     error: function(error) {
-      console.log('loadChart error:', error.responseJSON);
       $('#mainChart').hide();
       $('#topicModalAlert').show('fade');
       $('#topicModalAlert').text(error.responseJSON.message);
@@ -91,7 +90,6 @@ function saveTopic() {
     error: function(error) {
       $('#addTopicModalAlert').show('fade');
       $('#addTopicModalAlert').text(error.responseJSON.message);
-      console.log('saveTopic error:', error.responseJSON.message);
     }
   });
 }
