@@ -1,10 +1,8 @@
 const mqtt = require('mqtt');
-const logger = require('pino')();
-const config = require('../config');
 const Topic = require('../models/topic.model');
-const timeseries = require('../utils/timeseries');
-
 const events = require('../events');
+const logger = require('../utils/logger');
+const config = require('../config');
 
 const mqttClient = mqtt.connect(config.mqttOptions);
 

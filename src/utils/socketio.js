@@ -1,7 +1,7 @@
 const socketio = require('socket.io');
-const logger = require('pino')();
 const Topic = require('../models/topic.model');
 const events = require('../events');
+const logger = require('../utils/logger');
 
 let io;
 

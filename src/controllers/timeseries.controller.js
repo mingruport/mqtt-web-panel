@@ -1,9 +1,9 @@
 const express = require('express');
 const moment = require('moment');
 const Topic = require('../models/topic.model');
-const config = require('../config');
 const errors = require('../utils/errors');
 const timeseries = require('../utils/timeseries');
+const config = require('../config');
 
 const router = express.Router();
 

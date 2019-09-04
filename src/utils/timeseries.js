@@ -1,7 +1,7 @@
 const { Caiman } = require('caiman');
 const { MongoClient } = require('mongodb');
-const config = require('../config');
 const events = require('../events');
+const config = require('../config');
 
 const PERIODS = ['month', 'day', 'hour', 'minute', 'second'];
 const STRATEGY = 'averages';

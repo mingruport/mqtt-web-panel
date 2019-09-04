@@ -5,9 +5,7 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const compression = require('compression');
 const morgan = require('morgan');
-const logger = require('pino')();
 
-const config = require('./config');
 const mongoose = require('./utils/mongoose');
 const mqtt = require('./mqtt-client');
 const saveLastValue = require('./utils/saveLastValue');
@@ -15,6 +13,8 @@ const { NotFoundError } = require('./utils/errors');
 const timeseries = require('./utils/timeseries');
 const topicController = require('./controllers/topic.controller');
 const timeseriesController = require('./controllers/timeseries.controller');
+const logger = require('./utils/logger');
+const config = require('./config');
 
 const app = express();
 const server = require('http').createServer(app);
