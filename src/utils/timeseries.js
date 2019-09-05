@@ -1,6 +1,6 @@
 const { Caiman } = require('caiman');
 const { MongoClient } = require('mongodb');
-const events = require('../events');
+const pubsub = require('../utils/pubsub');
 const config = require('../config');
 
 const PERIODS = ['month', 'day', 'hour', 'minute', 'second'];
@@ -25,7 +25,7 @@ const initBD = () => {
 
 const getTopicStatistic = () => topicStatistic;
 
-events.subscribe('MESSAGE', (topic, value) => {
+pubsub.subscribe('MESSAGE', (topic, value) => {
   if (!topicStatistic[topic]) {
     topicStatistic[topic] = new Caiman(topic, options);
   }

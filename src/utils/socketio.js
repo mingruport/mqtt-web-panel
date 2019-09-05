@@ -1,6 +1,6 @@
 const socketio = require('socket.io');
 const Topic = require('../models/topic.model');
-const events = require('../events');
+const pubsub = require('../utils/pubsub');
 const logger = require('../utils/logger');
 
 let io;
@@ -20,7 +20,7 @@ const listen = (app) => {
   return io;
 };
 
-events.subscribe('MESSAGE', (topic, value) => {
+pubsub.subscribe('MESSAGE', (topic, value) => {
   Topic
     .findByTopic(topic)
     .then(topicData => {
@@ -32,11 +32,11 @@ events.subscribe('MESSAGE', (topic, value) => {
     .catch(err => logger.error(err));
 });
 
-events.subscribe('NEW_TOPIC', () => io.emit('update_topics'));
+pubsub.subscribe('NEW_TOPIC', () => io.emit('update_topics'));
 
-events.subscribe('UPDATE_TOPIC', () => io.emit('update_topics'));
+pubsub.subscribe('UPDATE_TOPIC', () => io.emit('update_topics'));
 
-events.subscribe('DELETE_TOPIC', () => io.emit('update_topics'));
+pubsub.subscribe('DELETE_TOPIC', () => io.emit('update_topics'));
 
 module.exports = {
   listen

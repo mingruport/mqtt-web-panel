@@ -1,7 +1,7 @@
 const express = require('express');
 const Topic = require('../models/topic.model');
 const { BadRequestError, NotFoundError } = require('../utils/errors');
-const events = require('../events');
+const pubsub = require('../utils/pubsub');
 
 const router = express.Router();
 
@@ -37,7 +37,7 @@ router.post('/', (req, res, next) => {
   newTopic
     .save()
     .then(savedTopic => {
-      events.push('NEW_TOPIC', savedTopic.topic);
+      pubsub.push('NEW_TOPIC', savedTopic.topic);
       res.json(savedTopic);
     })
     .catch(err => next(err));
@@ -55,7 +55,7 @@ router.put('/:friendlyId', (req, res, next) => {
       return topic.set(body).save();
     })
     .then(updatedTopic => {
-      events.push('UPDATE_TOPIC', updatedTopic.topic);
+      pubsub.push('UPDATE_TOPIC', updatedTopic.topic);
       res.json(updatedTopic);
     })
     .catch(err => next(err));
@@ -72,7 +72,7 @@ router.delete('/:friendlyId', (req, res, next) => {
       return topic.remove();
     })
     .then(deletedTopic => {
-      events.push('DELETE_TOPIC', deletedTopic.topic);
+      pubsub.push('DELETE_TOPIC', deletedTopic.topic);
       res.json(deletedTopic);
     })
     .catch(err => next(err));

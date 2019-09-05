@@ -1,6 +1,6 @@
 const { EventEmitter } = require('events');
 
-class Stream extends EventEmitter {
+class PubSub extends EventEmitter {
   push(event, ...payload) {
     this.emit(event, ...payload);
   }
@@ -11,4 +11,4 @@ class Stream extends EventEmitter {
   }
 }
 
-module.exports = new Stream;
+module.exports = new PubSub;

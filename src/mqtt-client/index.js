@@ -1,6 +1,6 @@
 const mqtt = require('mqtt');
 const Topic = require('../models/topic.model');
-const events = require('../events');
+const pubsub = require('../utils/pubsub');
 const logger = require('../utils/logger');
 const config = require('../config');
 
@@ -32,17 +32,17 @@ mqttClient.on('error', error => logger.error(error));
 mqttClient.on('message', (topic, message) => {
   logger.info('MQTT message -', `${topic}: ${message}`);
 
-  events.push('MESSAGE', topic.toString(), message.toString());
+  pubsub.push('MESSAGE', topic.toString(), message.toString());
 });
 
-events.subscribe('NEW_TOPIC', topic => {
+pubsub.subscribe('NEW_TOPIC', topic => {
   mqttClient.subscribe(topic, (err, granted) => {
     if (err) logger.error(err);
     logger.info('MQTT Subscribe -', granted);
   });
 });
 
-events.subscribe('UPDATE_TOPIC', topic => {
+pubsub.subscribe('UPDATE_TOPIC', topic => {
   mqttClient.unsubscribe(topic, err => {
     if (err) logger.error(err);
     logger.info('MQTT Unsubscribe -', topic);
@@ -51,7 +51,7 @@ events.subscribe('UPDATE_TOPIC', topic => {
   resubscribe();
 });
 
-events.subscribe('DELETE_TOPIC', topic => {
+pubsub.subscribe('DELETE_TOPIC', topic => {
   mqttClient.unsubscribe(topic, err => {
     if (err) logger.error(err);
     logger.info('MQTT Unsubscribe -', topic);
