@@ -32,7 +32,7 @@ mqttClient.on('error', error => logger.error(error));
 mqttClient.on('message', (topic, message) => {
   logger.info('MQTT message -', `${topic}: ${message}`);
 
-  pubsub.push('MESSAGE', topic.toString(), message.toString());
+  pubsub.push('NEW_MESSAGE', topic.toString(), message.toString());
 });
 
 pubsub.subscribe('NEW_TOPIC', topic => {

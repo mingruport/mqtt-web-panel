@@ -25,7 +25,7 @@ const initBD = () => {
 
 const getTopicStatistic = () => topicStatistic;
 
-pubsub.subscribe('MESSAGE', (topic, value) => {
+pubsub.subscribe('NEW_MESSAGE', (topic, value) => {
   if (!topicStatistic[topic]) {
     topicStatistic[topic] = new Caiman(topic, options);
   }

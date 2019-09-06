@@ -2,7 +2,7 @@ const Topic = require('../models/topic.model');
 const pubsub = require('../utils/pubsub');
 const logger = require('../utils/logger');
 
-pubsub.subscribe('MESSAGE', (topic, value) => {
+pubsub.subscribe('NEW_MESSAGE', (topic, value) => {
   const lastValue = roundNuber(value);
 
   Topic
