@@ -21,21 +21,21 @@
   "dependencies": {
     "caiman": "^0.2.0",
     "compression": "^1.7.4",
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
-    "helmet": "^3.20.0",
+    "helmet": "^3.21.0",
     "moment": "^2.24.0",
-    "mongoose": "^5.6.8",
+    "mongoose": "^5.7.1",
     "morgan": "^1.9.1",
     "mqtt": "^3.0.0",
-    "pino": "^5.13.1",
+    "pino": "^5.13.3",
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "expect": "^24.8.0",
+    "expect": "^24.9.0",
     "mocha": "^6.2.0",
-    "nodemon": "^1.19.1",
+    "nodemon": "^1.19.2",
     "pino-pretty": "^3.2.1",
     "supertest": "^4.0.2"
   }
