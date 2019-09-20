@@ -37,7 +37,7 @@ router.post('/', (req, res, next) => {
   newTopic
     .save()
     .then(savedTopic => {
-      pubsub.push('NEW_TOPIC', savedTopic.topic);
+      pubsub.publish('NEW_TOPIC', savedTopic.topic);
       res.json(savedTopic);
     })
     .catch(err => next(err));
@@ -55,7 +55,7 @@ router.put('/:friendlyId', (req, res, next) => {
       return topic.set(body).save();
     })
     .then(updatedTopic => {
-      pubsub.push('UPDATE_TOPIC', updatedTopic.topic);
+      pubsub.publish('UPDATE_TOPIC', updatedTopic.topic);
       res.json(updatedTopic);
     })
     .catch(err => next(err));
@@ -72,7 +72,7 @@ router.delete('/:friendlyId', (req, res, next) => {
       return topic.remove();
     })
     .then(deletedTopic => {
-      pubsub.push('DELETE_TOPIC', deletedTopic.topic);
+      pubsub.publish('DELETE_TOPIC', deletedTopic.topic);
       res.json(deletedTopic);
     })
     .catch(err => next(err));

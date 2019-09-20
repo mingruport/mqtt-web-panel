@@ -13,7 +13,7 @@ const { NotFoundError } = require('./utils/errors');
 const timeseries = require('./utils/timeseries');
 const topicController = require('./controllers/topic.controller');
 const timeseriesController = require('./controllers/timeseries.controller');
-const socketHandler = require('./utils/socket');
+const socketHandler = require('./socket');
 const logger = require('./utils/logger');
 const config = require('./config');
 

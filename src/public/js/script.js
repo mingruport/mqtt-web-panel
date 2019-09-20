@@ -148,8 +148,6 @@ $(function () {
     updateStatus('Reconnecting...', '#007bff');
   }).on("disconnect", function () {
     updateStatus('Disconnect', '#dc3545');
-  }).on("updateTopics", function () {
-    loadContent();
   });
 
   $('#topicModal').on('shown.bs.modal', function (event) {

@@ -25,13 +25,13 @@ const initBD = () => {
 
 const getTopicStatistic = () => topicStatistic;
 
-pubsub.subscribe('NEW_MESSAGE', (topic, value) => {
+pubsub.subscribe('NEW_MQTT_MESSAGE', ({ topic, message }) => {
   if (!topicStatistic[topic]) {
     topicStatistic[topic] = new Caiman(topic, options);
   }
 
   const currentDate = new Date();
-  topicStatistic[topic].save(currentDate, PERIODS, value, STRATEGY);
+  topicStatistic[topic].save(currentDate, PERIODS, message, STRATEGY);
 });
 
 module.exports = {
