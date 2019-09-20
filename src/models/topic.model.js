@@ -1,18 +1,17 @@
 const mongoose = require('mongoose');
+const handleMongooseError = require('../utils/mongooseError');
 
 const TopicSchema = mongoose.Schema({
   friendly: {
     type: String,
     required: [true, 'can\'t be blank'],
     unique: true,
-    minlength: 1,
     trim: true,
   },
   topic: {
     type: String,
     required: [true, 'can\'t be blank'],
     unique: true,
-    minlength: 1,
     trim: true,
   },
   unit: {
@@ -23,7 +22,9 @@ const TopicSchema = mongoose.Schema({
     type: String,
     trim: true,
   },
-});
+}, { timestamps: true });
+
+TopicSchema.post('save', handleMongooseError);
 
 TopicSchema.methods.toJSON = function () {
   return {
