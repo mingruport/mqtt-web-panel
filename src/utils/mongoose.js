@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('./../config');
 
-const isDev = config.env !== 'production';
+const isDev = config.env === 'development';
 
 mongoose.Promise = global.Promise;
 

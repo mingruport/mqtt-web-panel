@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" type="image/png" href="/favicon.png">
   <title>MQTT Web Panel</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   <nav class="navbar navbar-expand">
     <div class="container">
@@ -16,7 +18,8 @@
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto"></ul>
         <form class="form-inline">
-          <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#addTopicModal">Add</button>
+          <button type="button" class="btn btn-outline-success" data-toggle="modal"
+            data-target="#addWidgetModal">Add</button>
         </form>
       </div>
     </div>
@@ -24,19 +27,21 @@
   <div class="container content">
     <div class="mt-5 loader"></div>
   </div>
-  <div class="modal fade" id="addTopicModal" tabindex="-1" role="dialog" aria-labelledby="addTopic" aria-hidden="true">
+  <div class="modal fade" id="addWidgetModal" tabindex="-1" role="dialog" aria-labelledby="addWidget"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Add topic</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title">Add widget</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <form id="addingForm">
-            <input type="hidden" name="friendlyId" value="">
+            <input type="hidden" name="id" value="">
             <div class="form-group">
-              <label for="friendly" class="form-control-label">Friendly name</label>
-              <input type="text" class="form-control" name="friendly" placeholder="Friendly name" autofocus="autofocus">
+              <label for="name" class="form-control-label">Name</label>
+              <input type="text" class="form-control" name="name" placeholder="Name" autofocus="autofocus">
             </div>
             <div class="form-group">
               <label for="topic" class="form-control-label">Topic</label>
@@ -47,7 +52,7 @@
               <input type="text" class="form-control" name="unit" placeholder="Unit">
             </div>
           </form>
-          <div id="addTopicModalAlert" class="alert alert-danger collapse" role="alert">
+          <div id="addWidgetModalAlert" class="alert alert-danger collapse" role="alert">
           </div>
         </div>
         <div class="modal-footer">
@@ -57,25 +62,29 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" id="topicModal" tabindex="-1" role="dialog" aria-labelledby="topicData" aria-hidden="true">
+  <div class="modal fade" id="widgetModal" tabindex="-1" role="dialog" aria-labelledby="widgetData" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title"></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="col text-center">
-              <div class="btn-group" id="periodBtn" data-toggle="buttons">
-                <label class="btn btn-outline-primary active"><input type="radio" name="options" value="hour" autocomplete="off" checked>Hour</label>
-                <label class="btn btn-outline-primary"><input type="radio" name="options" value="day" autocomplete="off">Day</label>
-                <label class="btn btn-outline-primary"><input type="radio" name="options" value="month" autocomplete="off">Month</label>
+              <div class="btn-group btn-group-toggle" id="periodBtn" data-toggle="buttons">
+                <label class="btn btn-outline-primary active"><input type="radio" name="options" value="hour"
+                    autocomplete="off" checked>Hour</label>
+                <label class="btn btn-outline-primary"><input type="radio" name="options" value="day"
+                    autocomplete="off">Day</label>
+                <label class="btn btn-outline-primary"><input type="radio" name="options" value="month"
+                    autocomplete="off">Month</label>
               </div>
             </div>
           </div>
           <div class="col pt-2" id="statisticsDataBody">
-            <div class="alert alert-danger collapse" id="topicModalAlert" role="alert"></div>
+            <div class="alert alert-danger collapse" id="widgetModalAlert" role="alert"></div>
             <canvas id="mainChart"></canvas>
           </div>
         </div>
@@ -87,35 +96,36 @@
       </div>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.1.0/mustache.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
   <script src="js/script.js"></script>
   <script id="contentTemplate" type="x-tmpl-mustache">
-    {{^topics}}
+    {{^widgets}}
     <div class="text-center">
-      <p class="display-4 text-secondary">No topics</p>
-      <button type="button" class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#addTopicModal">Add</button>
+      <p class="display-4 text-secondary">No widgets</p>
+      <button type="button" class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#addWidgetModal">Add</button>
     </div>
-    {{/topics}}
+    {{/widgets}}
     <div class="row">
-      {{#topics}}
+      {{#widgets}}
       <div class="col-sm-auto">
-        <div class="card text-center" data-toggle="modal" id="{{friendlyId}}" data-target="#topicModal" data-whatever="{{friendly}}^{{topic}}">
+        <div class="card text-center" data-toggle="modal" id="{{id}}" data-target="#widgetModal" data-whatever="{{name}}^{{topic}}">
           <div class="card-body">
-            <h4 class="card-title">{{friendly}}</h4>
+            <h4 class="card-title">{{name}}</h4>
             <p class="card-text">{{^value}}n/a{{/value}} {{#value}}{{value}} <span class="unit text-secondary">{{unit}}{{/value}}</span></p>
           </div>
         </div>
       </div>
-    {{/topics}}
+    {{/widgets}}
     </div>
   </script>
   <script id="cardTextTemplate" type="x-tmpl-mustache">
     {{value}} <span class="unit text-secondary">{{unit}}</span>
   </script>
 </body>
+
 </html>

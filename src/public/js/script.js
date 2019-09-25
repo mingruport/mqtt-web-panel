@@ -1,4 +1,4 @@
-var config = {
+const config = {
   type: 'line',
   data: {
     labels: null,
@@ -14,8 +14,8 @@ var config = {
   }
 };
 
-var chartCtx = $('#mainChart');
-var mainChart = new Chart(chartCtx, config);
+const chartCtx = $('#mainChart');
+const mainChart = new Chart(chartCtx, config);
 
 function updateChart(chartData) {
   mainChart.data.labels = chartData.date;
@@ -26,14 +26,11 @@ function updateChart(chartData) {
   mainChart.update();
 }
 
-function loadStatisticsData(friendlyId, period) {
+function loadStatisticsData(id, period) {
   $.ajax({
-    url: 'api/timeseries',
+    url: 'api/widgets/' + id + '/events',
     type: 'GET',
-    data: {
-      friendlyId: friendlyId,
-      period: period
-    },
+    data: { period },
     dataType: 'json',
     success: function (response) {
       $('#mainChart').show();
@@ -41,36 +38,36 @@ function loadStatisticsData(friendlyId, period) {
     },
     error: function (error) {
       $('#mainChart').hide();
-      $('#topicModalAlert').show('fade');
-      $('#topicModalAlert').text(error.responseJSON.message);
+      $('#widgetModalAlert').show('fade');
+      $('#widgetModalAlert').text(error.responseJSON.message);
     }
   });
 }
 
 function loadContent() {
   $.ajax({
-    url: 'api/topics',
+    url: 'api/widgets',
     type: 'GET',
     success: function (response) {
-      var template = $('#contentTemplate').html();
-      var rendered = Mustache.render(template, response);
+      const template = $('#contentTemplate').html();
+      const rendered = Mustache.render(template, response);
       $('.content').html(rendered);
     }
   });
 }
 
-function saveTopic() {
-  var form = $('#addingForm');
-  var friendlyId = form.find('input[name="friendlyId"]').val();
-  var requestMetod = '';
-  var requestURL = '';
+function saveWidget() {
+  const form = $('#addingForm');
+  const id = form.find('input[name="id"]').val();
+  let requestMetod = '';
+  let requestURL = '';
 
-  if (friendlyId) {
+  if (id) {
     requestMetod = 'PUT';
-    requestURL = 'api/topics/' + friendlyId;
+    requestURL = 'api/widgets/' + id;
   } else {
     requestMetod = 'POST';
-    requestURL = 'api/topics';
+    requestURL = 'api/widgets';
   }
 
   $.ajax({
@@ -78,56 +75,56 @@ function saveTopic() {
     type: requestMetod,
     contentType: 'application/json',
     data: JSON.stringify({
-      friendly: form.find('input[name="friendly"]').val(),
+      name: form.find('input[name="name"]').val(),
       topic: form.find('input[name="topic"]').val(),
       unit: form.find('input[name="unit"]').val()
     }),
     dataType: "json",
     success: function () {
       loadContent();
-      $('#addTopicModal').modal('hide');
+      $('#addWidgetModal').modal('hide');
     },
     error: function (error) {
-      $('#addTopicModalAlert').show('fade');
-      $('#addTopicModalAlert').text(error.responseJSON.message);
+      $('#addWidgetModalAlert').show('fade');
+      $('#addWidgetModalAlert').text(error.responseJSON.message);
     }
   });
 }
 
-function editTopic(friendlyId) {
-  var form = $('#addingForm');
+function editWidget(id) {
+  const form = $('#addingForm');
 
-  $('#topicModal').modal('hide');
-  $('#addTopicModal').modal('show');
-  $('#addTopicModal').find('.modal-title').text('Edit topic');
+  $('#widgetModal').modal('hide');
+  $('#addWidgetModal').modal('show');
+  $('#addWidgetModal').find('.modal-title').text('Edit widget');
 
   $.ajax({
-    url: 'api/topics/' + friendlyId,
+    url: 'api/widgets/' + id,
     type: 'GET',
     success: function (response) {
-      form.find('input[name="friendlyId"]').val(response.friendlyId),
-        form.find('input[name="friendly"]').val(response.friendly),
+      form.find('input[name="id"]').val(response.id),
+        form.find('input[name="name"]').val(response.name),
         form.find('input[name="topic"]').val(response.topic),
         form.find('input[name="unit"]').val(response.unit)
     }
   });
 }
 
-function deleteTopic(friendlyId) {
+function deleteWidget(id) {
   $.ajax({
-    url: 'api/topics/' + friendlyId,
+    url: 'api/widgets/' + id,
     type: 'DELETE',
     success: function () {
-      $('#topicModal').modal('hide');
+      $('#widgetModal').modal('hide');
       loadContent();
     }
   });
 }
 
-function updateCardBody(friendlyId, message) {
-  var template = $('#cardTextTemplate').html();
-  var rendered = Mustache.render(template, message);
-  $('#' + friendlyId + ' .card-text').html(rendered);
+function updateCardBody(id, message) {
+  const template = $('#cardTextTemplate').html();
+  const rendered = Mustache.render(template, message);
+  $('#' + id + ' .card-text').html(rendered);
 }
 
 function updateStatus(statusText, statusColor) {
@@ -141,7 +138,7 @@ $(function () {
   var socket = io.connect();
 
   socket.on('updateValue', function (data) {
-    updateCardBody(data.friendlyId, data.message);
+    updateCardBody(data.id, data.message);
   }).on('connect', function () {
     updateStatus('Connected', '#28a745');
   }).on('reconnecting', function () {
@@ -150,47 +147,47 @@ $(function () {
     updateStatus('Disconnect', '#dc3545');
   });
 
-  $('#topicModal').on('shown.bs.modal', function (event) {
-    var modal = $(this);
-    var card = $(event.relatedTarget);
-    var friendlyId = card.attr('id');
-    var topicData = card.data('whatever').split('^');
+  $('#widgetModal').on('shown.bs.modal', function (event) {
+    const modal = $(this);
+    const card = $(event.relatedTarget);
+    const id = card.attr('id');
+    const widgetData = card.data('whatever').split('^');
 
-    var period = modal.find('#periodBtn label.active input').val();
+    let period = modal.find('#periodBtn label.active input').val();
 
-    modal.find('.modal-title').html(topicData[0] + ' <span class="badge badge-secondary">' + topicData[1] + '</span>');
-    loadStatisticsData(friendlyId, period);
+    modal.find('.modal-title').html(widgetData[0] + ' <span class="badge badge-secondary">' + widgetData[1] + '</span>');
+    loadStatisticsData(id, period);
 
     modal.find('#periodBtn input:radio').change(function () {
       period = $(this).val();
-      loadStatisticsData(friendlyId, period);
+      loadStatisticsData(id, period);
     });
 
     modal.find('#deleteBtn').off('click').click(function () {
-      deleteTopic(friendlyId);
+      deleteWidget(id);
     });
 
     modal.find('#editBtn').off('click').click(function () {
-      editTopic(friendlyId);
+      editWidget(id);
     });
   });
 
-  $('#topicModal').on('hidden.bs.modal', function () {
-    $('#topicModalAlert').hide('fade');
+  $('#widgetModal').on('hidden.bs.modal', function () {
+    $('#widgetModalAlert').hide('fade');
   });
 
-  $('#addTopicModal').on('hidden.bs.modal', function () {
-    var form = $('#addingForm');
+  $('#addWidgetModal').on('hidden.bs.modal', function () {
+    const form = $('#addingForm');
 
-    form.find('input[name="friendlyId"]').val('');
-    form.find('input[name="friendly"]').val('');
+    form.find('input[name="id"]').val('');
+    form.find('input[name="name"]').val('');
     form.find('input[name="topic"]').val('');
     form.find('input[name="unit"]').val('');
 
-    $('#addTopicModal').find('.modal-title').text('Add topic');
+    $('#addWidgetModal').find('.modal-title').text('Add widget');
   });
 
   $('#saveBtn').click(function () {
-    saveTopic();
+    saveWidget();
   });
 });

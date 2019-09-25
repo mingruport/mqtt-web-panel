@@ -1,4 +1,4 @@
-const Topic = require('./models/topic.model');
+const { getWidget } = require('./widgets');
 const pubsub = require('./utils/pubsub');
 const logger = require('./utils/logger');
 
@@ -6,14 +6,13 @@ module.exports = io => {
   logger.info(`WS ${io.id} connected.`);
 
   const newMessageHandler = pubsub.subscribe('NEW_MQTT_MESSAGE', ({ topic, message }) => {
-    Topic
-      .findByTopic(topic)
-      .then(data => {
-        const friendlyId = data.friendly.toLowerCase();
-        const value = message.toString();
-        const unit = data.unit;
+    const value = message.toString();
 
-        io.emit('updateValue', { friendlyId, message: { value, unit } });
+    getWidget({ topic })
+      .then(widget => {
+        const widgetId = widget._id;
+        const unit = widget.unit;
+        io.emit('updateValue', { id: widgetId, message: { value, unit } });
       })
       .catch(err => logger.error(err));
   });
