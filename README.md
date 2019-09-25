@@ -86,7 +86,7 @@ npm test
 | `MONGODB_URI`   | `-`     | Database URL           |
 | `TIME_ZONE`     | `00:00` | Local time zone        |
 | `MQTT_URL`      | `-`     | MQTT server URL        |
-| `MQTT_PORT`     | `-`     | MQTT server Port       |
+| `MQTT_PORT`     | `-`     | MQTT server port       |
 | `MQTT_USERNAME` | `-`     | MQTT server username   |
 | `MQTT_PASSWORD` | `-`     | MQTT server password   |
 

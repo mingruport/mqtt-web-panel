@@ -1,7 +1,7 @@
 {
   "name": "mqtt-web-panel",
   "version": "0.1.1",
-  "description": "A real-time web interface for MQTT.",
+  "description": "Real-time web interface for MQTT.",
   "repository": {
     "type": "git",
     "url": "https://github.com/mingruport/mqtt-web-panel"

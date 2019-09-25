@@ -1,7 +1,28 @@
 {
   "name": "MQTT Web Panel",
-  "description": "A simple web interface for MQTT",
+  "description": "Real-time web interface for MQTT.",
   "repository": "https://github.com/mingruport/mqtt-web-panel",
   "logo": "https://node-js-sample.herokuapp.com/node.png",
-  "keywords": ["node", "express", "mqtt"]
+  "keywords": [
+    "node",
+    "dashboard",
+    "mqtt"
+  ],
+  "addons": [
+    "mongolab"
+  ],
+  "env": {
+    "MQTT_URL": {
+      "description": "MQTT server URL"
+    },
+    "MQTT_PORT": {
+      "description": "MQTT server port"
+    },
+    "MQTT_USERNAME": {
+      "description": "MQTT server username"
+    },
+    "MQTT_PASSWORD": {
+      "description": "MQTT server password"
+    }
+  }
 }
