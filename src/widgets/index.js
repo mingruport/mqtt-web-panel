@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongodb');
 const moment = require('moment');
 const Widget = require('./widget');
 const Event = require('./event');
@@ -23,8 +22,6 @@ const EVENT_DATE_FORMAT = {
 const allWidgets = () => Widget.find();
 
 const getWidgetById = id => {
-  if (!ObjectId.isValid(id)) return Promise.reject(new BadRequestError('Invalid widget ID'));
-
   return Widget
     .findById(id)
     .then(widget => {
@@ -87,7 +84,7 @@ const allEventByWidget = (widgetId, period) => {
     .aggregate([
       {
         $match: {
-          widgetId: ObjectId(widgetId),
+          widgetId: widgetId,
           createdAt: { $gte: endDate },
         },
       },
