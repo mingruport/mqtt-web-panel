@@ -77,6 +77,7 @@ function saveWidget() {
     data: JSON.stringify({
       name: form.find('input[name="name"]').val(),
       topic: form.find('input[name="topic"]').val(),
+      qos: form.find('select[name="qos"]').val(),
       unit: form.find('input[name="unit"]').val()
     }),
     dataType: "json",
@@ -104,6 +105,7 @@ function editWidget(id) {
     success: function (response) {
       form.find('input[name="id"]').val(response.id),
         form.find('input[name="name"]').val(response.name),
+        form.find('select[name="qos"]').val(response.qos),
         form.find('input[name="topic"]').val(response.topic),
         form.find('input[name="unit"]').val(response.unit)
     }
@@ -182,6 +184,7 @@ $(function () {
     form.find('input[name="id"]').val('');
     form.find('input[name="name"]').val('');
     form.find('input[name="topic"]').val('');
+    form.find('input[name="qos"]').val('');
     form.find('input[name="unit"]').val('');
 
     $('#addWidgetModal').find('.modal-title').text('Add widget');

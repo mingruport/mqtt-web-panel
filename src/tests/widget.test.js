@@ -3,9 +3,9 @@ const request = require('supertest');
 const expect = require('expect');
 const app = require('../index.js');
 
-const validAttrs = { name: 'Temperature', topic: 'widgets/temperature', unit: '℃' };
-const updateAttrs = { name: 'Humidity', topic: 'widgets/humidity', unit: '%' };
-const invalidAttrs = { name: '', topic: '', unit: '' };
+const validAttrs = { name: 'Temperature', topic: 'widgets/temperature', qos: 0, unit: '℃' };
+const updateAttrs = { name: 'Humidity', topic: 'widgets/humidity', qos: 1, unit: '%' };
+const invalidAttrs = { name: '', topic: '', qos: 3, unit: '' };
 
 const invalidId = '5d8a0cfb4a26124b25d8db59';
 
@@ -46,6 +46,7 @@ describe('# GET /api/widgets/:id', () => {
       .then((res) => {
         expect(res.body.name).toEqual(widget.name);
         expect(res.body.topic).toEqual(widget.topic);
+        expect(res.body.qos).toEqual(widget.qos);
         expect(res.body.unit).toEqual(widget.unit);
         done();
       })
@@ -74,6 +75,7 @@ describe('# POST /api/widgets', () => {
       .then(res => {
         expect(res.body.name).toEqual(validAttrs.name);
         expect(res.body.topic).toEqual(validAttrs.topic);
+        expect(res.body.qos).toEqual(validAttrs.qos);
         expect(res.body.unit).toEqual(validAttrs.unit);
         done();
       })
@@ -99,6 +101,7 @@ describe('# PUT /api/widgets/:id', () => {
       .then(res => {
         expect(res.body.name).toEqual(updateAttrs.name);
         expect(res.body.topic).toEqual(updateAttrs.topic);
+        expect(res.body.qos).toEqual(updateAttrs.qos);
         expect(res.body.unit).toEqual(updateAttrs.unit);
         done();
       })

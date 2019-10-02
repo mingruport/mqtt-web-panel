@@ -8,12 +8,12 @@ module.exports = (brokerOptions, topics = []) => {
   mqttClient.on('connect', () => {
     logger.info('MQTT Client ID -', mqttClient.options.clientId);
 
-    if (topics.length !== 0) {
-      mqttClient.subscribe(topics, (err, granted) => {
+    topics.map(topic => {
+      mqttClient.subscribe(topic, (err, granted) => {
         if (err) logger.error(err);
         logger.info('MQTT Subscribe -', granted);
       });
-    }
+    });
   });
 
   mqttClient.on('error', error => logger.error(error));

@@ -39,9 +39,9 @@ router.get('/:id/events', (req, res, next) => {
 
 /** POST api/widgets - Create a new widget */
 router.post('/', (req, res, next) => {
-  const { name, topic, unit } = req.body;
+  const body = req.body;
 
-  createWidget({ name, topic, unit })
+  createWidget(body)
     .then(widget => res.status(201).json(widget))
     .catch(err => next(err));
 });

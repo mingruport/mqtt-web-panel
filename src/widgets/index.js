@@ -52,15 +52,17 @@ const createWidget = data => {
 
 const updateWidget = (widget, data) => {
   const oldTopic = widget.topic;
+  const oldQos = widget.qos;
 
   return widget
     .set(data)
     .save()
     .then(widget => {
       const newTopic = widget.topic;
+      const newQos = widget.qos;
 
-      if (isTopicUpdated(oldTopic, newTopic)) {
-        pubsub.publish('UPDATE_WIDGET', { oldTopic, newTopic });
+      if (isTopicUpdated(oldTopic, newTopic) || IsQosUpdated(oldQos, newQos)) {
+        pubsub.publish('UPDATE_WIDGET', { oldTopic, newTopic: { [newTopic]: { qos: newQos } } });
       }
 
       return widget;
@@ -114,6 +116,8 @@ const createEvent = data => {
 }
 
 const isTopicUpdated = (oldTopic, newTopic) => oldTopic !== newTopic;
+
+const IsQosUpdated = (oldQos, newQos) => oldQos !== newQos;
 
 const isValidPeriod = period => VALID_PERIODS.includes(period);
 

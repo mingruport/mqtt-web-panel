@@ -14,6 +14,12 @@ const WidgetSchema = mongoose.Schema({
     unique: true,
     trim: true,
   },
+  qos: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 2
+  },
   unit: {
     type: String,
     trim: true,
@@ -31,6 +37,7 @@ WidgetSchema.methods.toJSON = function () {
     id: this._id,
     name: this.name,
     topic: this.topic,
+    qos: this.qos,
     unit: this.unit,
     value: this.value,
   };
