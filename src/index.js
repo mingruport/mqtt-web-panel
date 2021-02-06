@@ -19,7 +19,7 @@ const app = express();
 
 app.use(morgan('tiny'));
 app.use(compression());
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(express.json());
 
 app.use(express.static('src/public'));
@@ -44,7 +44,7 @@ mongoose
       logger.info(`API server listening ${config.port} port.`)
     );
 
-    socketio.listen(server).on('connection', socketHandler);
+    socketio(server).on('connection', socketHandler);
 
     saveValue();
 

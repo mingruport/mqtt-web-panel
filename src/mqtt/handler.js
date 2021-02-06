@@ -1,18 +1,16 @@
 const mqtt = require('mqtt');
+
 const pubsub = require('../utils/pubsub');
 const logger = require('../utils/logger');
 
-module.exports = (brokerOptions, topics = []) => {
+module.exports = (brokerOptions, topics = {}) => {
   const mqttClient = mqtt.connect(brokerOptions);
 
   mqttClient.on('connect', () => {
-    logger.info('MQTT Client ID -', mqttClient.options.clientId);
+    logger.info(`MQTT Client ID - ${mqttClient.options.clientId}`);
 
-    topics.map(topic => {
-      mqttClient.subscribe(topic, (err, granted) => {
-        if (err) logger.error(err);
-        logger.info('MQTT Subscribe -', granted);
-      });
+    mqttClient.subscribe(topics, (err) => {
+      if (err) logger.error(err);
     });
   });
 
@@ -25,28 +23,28 @@ module.exports = (brokerOptions, topics = []) => {
   });
 
   pubsub.subscribe('NEW_WIDGET', topic => {
-    mqttClient.subscribe(topic, (err, granted) => {
+    mqttClient.subscribe(topic, (err) => {
       if (err) logger.error(err);
-      logger.info('MQTT Subscribe -', granted);
+      logger.info(`MQTT Subscribe - ${topic}`);
     });
   });
 
   pubsub.subscribe('UPDATE_WIDGET', ({ oldTopic, newTopic }) => {
     mqttClient.unsubscribe(oldTopic, err => {
       if (err) logger.error(err);
-      logger.info('MQTT Unsubscribe -', oldTopic);
+      logger.info(`MQTT Unsubscribe - ${oldTopic}`);
     });
 
-    mqttClient.subscribe(newTopic, (err, granted) => {
+    mqttClient.subscribe(newTopic, (err) => {
       if (err) logger.error(err);
-      logger.info('MQTT Subscribe -', granted);
+      logger.info(`MQTT Subscribe - ${newTopic}`);
     });
   });
 
   pubsub.subscribe('DELETE_WIDGET', topic => {
     mqttClient.unsubscribe(topic, err => {
       if (err) logger.error(err);
-      logger.info('MQTT Unsubscribe -', topic);
+      logger.info(`MQTT Unsubscribe - ${topic}`);
     });
   });
 };

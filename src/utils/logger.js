@@ -1,12 +1,15 @@
 const pino = require('pino');
+const pinoPretty = require('pino-pretty');
+
 const config = require('../config');
 
-const isDev = config.env !== 'production';
+const isProd = config.env === 'production';
+const isDev = config.env === 'development';
 
-const pinoOptions = isDev ? {
-  prettyPrint: {
-    translateTime: 'HH:MM:ss.l'
-  }
-} : {};
+const pinoOptions = {
+  enabled: isDev || isProd,
+  prettyPrint: isDev,
+  prettifier: pinoPretty,
+};
 
-module.exports = pino(pinoOptions);;
+module.exports = pino(pinoOptions);

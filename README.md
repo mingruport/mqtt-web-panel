@@ -92,13 +92,13 @@ npm test
 
 ## API
 
-- `GET /api/widgets/` Get all widgets.
-- `GET /api/widgets/{id}` Get a single widget.
-- `POST /api/widgets/` Create a new widget.
-- `PUT /api/widgets/{id}` Update widget.
-- `DELETE /api/widgets/{id}` Delete widget.
+- GET `/api/widgets/` Get all widgets.
+- GET `/api/widgets/{id}` Get a single widget.
+- POST `/api/widgets/` Create a new widget.
+- PUT `/api/widgets/{id}` Update widget.
+- DELETE `/api/widgets/{id}` Delete widget.
 
-- `GET api/widgets/{id}/events&period={period}` Get widget events.
+- GET `/api/widgets/{id}/events&period={period}` Get widget events.
 
 ## License
 
