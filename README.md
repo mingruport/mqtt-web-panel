@@ -84,7 +84,6 @@ npm test
 | --------------- | ------- | ---------------------- |
 | `PORT`          | `3000`  | Port to run the API on |
 | `MONGODB_URI`   | `-`     | Database URL           |
-| `TIME_ZONE`     | `00:00` | Local time zone        |
 | `MQTT_URL`      | `-`     | MQTT server URL        |
 | `MQTT_PORT`     | `-`     | MQTT server port       |
 | `MQTT_USERNAME` | `-`     | MQTT server username   |

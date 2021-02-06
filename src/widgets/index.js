@@ -1,9 +1,9 @@
-const moment = require('moment');
+const { sub: subDate, format: formatDate } = require('date-fns');
+
 const Widget = require('./widget');
 const Event = require('./event');
-const { BadRequestError, NotFoundError } = require('../utils/errors');
 const pubsub = require('../utils/pubsub');
-const config = require('../config');
+const { BadRequestError, NotFoundError } = require('../utils/errors');
 
 const VALID_PERIODS = ['hour', 'day', 'month'];
 
@@ -15,8 +15,14 @@ const GROUP_EXPRESSION = {
 
 const EVENT_DATE_FORMAT = {
   hour: 'HH:mm',
-  day: 'Do, HH:mm',
-  month: 'MMM, Do',
+  day: 'do, HH:mm',
+  month: 'MMM, do',
+};
+
+const DURATION_MAP = {
+  hour: { hours: 1 },
+  day: { days: 1 },
+  month: { months: 1 },
 };
 
 const allWidgets = () => Widget.find();
@@ -121,10 +127,10 @@ const IsQosUpdated = (oldQos, newQos) => oldQos !== newQos;
 
 const isValidPeriod = period => VALID_PERIODS.includes(period);
 
-const getEndDate = period => moment().subtract(1, period).toDate();
+const getEndDate = period => subDate(new Date(), DURATION_MAP[period]);
 
 const fromatEvents = (events, period) => {
-  const date = events.map(event => moment(event.date).utcOffset(config.timeZone).format(EVENT_DATE_FORMAT[period]));
+  const date = events.map(event => formatDate(event.date, EVENT_DATE_FORMAT[period]));
   const value = events.map(event => event.value.toFixed(2));
 
   return { date, value };
