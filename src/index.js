@@ -22,8 +22,8 @@ app.use(compression());
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(express.json());
 
-app.use(express.static('src/public'));
-app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
+app.use(express.static('src/webapp'));
+app.use(favicon(path.join(__dirname, 'webapp', 'favicon.png')));
 app.use('/api/widgets', widgetController);
 
 app.use((req, res, next) => {
