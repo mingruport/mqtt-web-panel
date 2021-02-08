@@ -187,6 +187,7 @@ $(function () {
     form.find('input[name="qos"]').val('');
     form.find('input[name="unit"]').val('');
 
+    $('#addWidgetModalAlert').hide('fade');
     $('#addWidgetModal').find('.modal-title').text('Add widget');
   });
 

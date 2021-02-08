@@ -28,7 +28,10 @@ const WidgetSchema = mongoose.Schema({
     type: String,
     trim: true,
   },
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  versionKey: false,
+});
 
 WidgetSchema.post('save', handleMongooseError);
 

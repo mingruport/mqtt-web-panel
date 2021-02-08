@@ -78,7 +78,8 @@ const updateWidget = (widget, data) => {
 const deleteWidget = widget => {
   return widget
     .remove()
-    .then(widget => pubsub.publish('DELETE_WIDGET', widget.topic));
+    .then(widget => pubsub.publish('DELETE_WIDGET', widget.topic))
+    .then(() => Event.remove({ widgetId: widget.id }));
 }
 
 const allEventByWidget = (widgetId, period) => {
